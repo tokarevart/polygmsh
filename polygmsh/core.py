@@ -69,7 +69,7 @@ def cubes(nx, ny, nz):
 @click.option("-n", "--neach",
               type=click.IntRange(min=1),
               help="Number of cubes along each axis.")
-@click.option("-n3",  nargs=3,
+@click.option("-ns",  nargs=3,
               type=click.IntRange(min=1),
               help="Numbers of cubes along the XYZ axises. Has a higher priority than -n value.")
 @click.option("-o", "--out", type=click.Path(), default="mesh.key",
@@ -83,7 +83,7 @@ def cubes(nx, ny, nz):
 @click.option("-p", "--preflen", type=click.FLOAT, help="Preferred tetrahedron edge length.")
 @click.option("--nthrs", type=click.INT, help="Threads number.")
 @click.pass_context
-def main(ctx, neach, n3, out, frmt, preflen, nthrs):
+def main(ctx, neach, ns, out, frmt, preflen, nthrs):
     if ctx.invoked_subcommand is None:
         try:
             with open(join(dirname(__file__), "gmsh-path.pth"), "r") as f:
@@ -91,13 +91,13 @@ def main(ctx, neach, n3, out, frmt, preflen, nthrs):
         except FileNotFoundError:
             pass
 
-        pass_nxyz = n3 if neach is None else (neach, neach, neach)
-        genmesh(pass_nxyz, out, frmt, preflen, nthrs)
+        pass_ns = ns if neach is None else (neach, neach, neach)
+        genmesh(pass_ns, out, frmt, preflen, nthrs)
 
 
-def genmesh(n3, out, frmt, preflen, nthrs):
+def genmesh(ns, out, frmt, preflen, nthrs):
     gen_start = time.time()
-    geom = cubes(*n3)
+    geom = cubes(*ns)
     gen_time = time.time() - gen_start
     print("Done generating geometry ({0:.3f} s)".format(gen_time))
 
@@ -127,6 +127,6 @@ def set_gmsh_path(gmshpath):
 
 
 if __name__ == "__main__":
-    sys.argv = "polygmsh -n3 2 2 2 -p 0.5".split()
+    sys.argv = "polygmsh -ns 2 2 2 -p 0.5".split()
     # sys.argv = "polygmsh set_gmsh_path vot_path_tipa".split()
     main()
