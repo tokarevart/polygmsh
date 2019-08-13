@@ -1,6 +1,10 @@
 .idea/
-polygmsh/gmsh-path.pth
+polygmsh/*.pth
 polygmsh/__pycache__
+*.geo
+*.key
+polygmsh/*.geo
+polygmsh/*.key
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

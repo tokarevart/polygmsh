@@ -1,9 +1,10 @@
+import subprocess
+import sys
 import time
 from os.path import dirname, join
-import sys
-import subprocess
-import geoscr
+
 import click
+import geoscr
 
 
 def cubes(nx, ny, nz):
