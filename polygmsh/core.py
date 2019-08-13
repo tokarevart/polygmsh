@@ -4,11 +4,11 @@ import time
 from os.path import dirname, join
 
 import click
-import geoscr
+import geops
 
 
 def cubes(nx, ny, nz):
-    geom = geoscr.built_in.Geometry()
+    geom = geops.built_in.Geometry()
 
     points = [[[
         geom.add_point([x, y, z])
@@ -52,9 +52,9 @@ def cubes(nx, ny, nz):
 
     volumes = [[[
         geom.add_volume(geom.add_surface_loop([
-            surfaces[x][y][z][0],  # should be inverted but it works...
-            surfaces[x][y][z][1],  # should be inverted but it works...
-            surfaces[x][y][z][2],  # should be inverted but it works...
+            -surfaces[x][y][z][0],
+            -surfaces[x][y][z][1],
+            -surfaces[x][y][z][2],
             surfaces[x + 1][y][z][0],
             surfaces[x][y + 1][z][1],
             surfaces[x][y][z + 1][2]]))
@@ -111,7 +111,8 @@ def genmesh(ns, out, frmt, preflen, nthrs):
          "-3",
          "-algo", "del3d",
          "-smooth", "10",
-         "-optimize_netgen"]
+         "-optimize_netgen",
+         "-v", "4"]
         + (["-format", frmt] if frmt is not None else [])
         + (["-nt", str(nthrs)] if nthrs is not None else [])
         + (["-clmin", str(preflen),
@@ -124,9 +125,3 @@ def set_gmsh_path(gmshpath):
     with open(join(dirname(__file__), "gmsh-path.pth"), "w") as f:
         f.write(gmshpath)
     print("Done saving gmsh path.")
-
-
-if __name__ == "__main__":
-    sys.argv = "polygmsh -ns 2 2 2 -p 0.5".split()
-    # sys.argv = "polygmsh set_gmsh_path vot_path_tipa".split()
-    main()

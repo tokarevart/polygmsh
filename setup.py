@@ -7,12 +7,12 @@ setup(
     version=__version__,
     packages=find_packages(),
     install_requires=[
-            'geoscr',
+            'geops',
             'click'
         ],
     entry_points={
         'console_scripts': [
-                'polygmsh = polygmsh.core:cli'
+                'polygmsh = polygmsh.core:main'
             ]
     },
 )
