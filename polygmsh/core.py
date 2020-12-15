@@ -74,7 +74,7 @@ def cubes(nx, ny, nz):
               help="Numbers of cubes along the XYZ axises. Has a higher priority than -n value.")
 @click.option("-o", "--out", type=click.Path(), default="mesh.key",
               help="Output file name.")
-@click.option("-f", "--frmt",
+@click.option("-f", "--fmt",
               type=click.Choice(
                   "msh1, msh2, msh22, msh3, msh4, msh40, msh41, msh, unv, vtk, "
                   "wrl, mail, stl, p3d, mesh, bdf, cgns, med, diff, ir3, inp, "
@@ -83,7 +83,7 @@ def cubes(nx, ny, nz):
 @click.option("-p", "--preflen", type=click.FLOAT, help="Preferred tetrahedron edge length.")
 @click.option("--nthrs", type=click.INT, help="Threads number.")
 @click.pass_context
-def main(ctx, neach, ns, out, frmt, preflen, nthrs):
+def main(ctx, neach, ns, out, fmt, preflen, nthrs):
     if ctx.invoked_subcommand is None:
         try:
             with open(join(dirname(__file__), "gmsh-path.pth"), "r") as f:
@@ -92,10 +92,10 @@ def main(ctx, neach, ns, out, frmt, preflen, nthrs):
             pass
 
         pass_ns = ns if neach is None else (neach, neach, neach)
-        genmesh(pass_ns, out, frmt, preflen, nthrs)
+        genmesh(pass_ns, out, fmt, preflen, nthrs)
 
 
-def genmesh(ns, out, frmt, preflen, nthrs):
+def genmesh(ns, out, fmt, preflen, nthrs):
     gen_start = time.time()
     geom = cubes(*ns)
     gen_time = time.time() - gen_start
@@ -111,9 +111,9 @@ def genmesh(ns, out, frmt, preflen, nthrs):
          "-3",
          "-algo", "del3d",
          "-smooth", "10",
-         "-optimize_netgen",
+         "-optimize",
          "-v", "4"]
-        + (["-format", frmt] if frmt is not None else [])
+        + (["-format", fmt] if fmt is not None else [])
         + (["-nt", str(nthrs)] if nthrs is not None else [])
         + (["-clmin", str(preflen),
             "-clmax", str(preflen)] if preflen is not None else []))

@@ -3,6 +3,9 @@ polygmsh/*.pth
 polygmsh/__pycache__
 *.geo
 *.key
+*.exe
+*.k
+*.msg
 polygmsh/*.geo
 polygmsh/*.key
 
@@ -129,3 +132,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/gb_veloc_vector.txt
+/lspost.cfile
+/run-realizs.py
