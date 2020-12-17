@@ -11,7 +11,7 @@ def cubes(nx, ny, nz):
     geom = geops.built_in.Geometry()
 
     points = [[[
-        geom.add_point([x, y, z])
+        geom.add_point([x / nx, y / ny, z / nz])
         for z in range(nz + 1)]
         for y in range(ny + 1)]
         for x in range(nx + 1)]
